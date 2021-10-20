@@ -10,6 +10,7 @@ namespace MathForGames
         /// Array of actors in the scenes
         /// </summary>
         private Actor[] _actors;
+        private Actor[] _UIElements;
 
         public Scene()
         {
@@ -53,6 +54,16 @@ namespace MathForGames
 
         }
 
+        public virtual void UpdateUI(float deltaTime)
+        {
+            for (int i = 0; i < _UIElements.Length; i++)
+            {
+                if (!_UIElements[i].Started)
+                    _UIElements[i].Start();
+                _UIElements[i].Update(deltaTime);
+            }
+        }
+
         /// <summary>
         /// Calls End for all the actors in the _actors array
         /// </summary>
@@ -72,6 +83,14 @@ namespace MathForGames
             for (int i = 0; i < _actors.Length; i++)
             {
                 _actors[i].Draw();
+            }
+        }
+
+        public virtual void DrawUI()
+        {
+            for (int i = 0; i < _UIElements.Length; i++)
+            {
+                _UIElements[i].Draw();
             }
         }
 
@@ -95,6 +114,19 @@ namespace MathForGames
 
             //makes _actors array match the template array
             _actors = NewActorArray;
+        }
+
+        public void AddUIElement(Actor UI)
+        {
+            Actor[] TempUIArray = new Actor[_UIElements.Length + 1];
+
+            for (int i = 0; i < _UIElements.Length; i++)
+            {
+                TempUIArray[i] = _UIElements[i];
+            }
+
+            TempUIArray[TempUIArray.Length - 1] = UI;
+            _UIElements = TempUIArray;
         }
 
         /// <summary>

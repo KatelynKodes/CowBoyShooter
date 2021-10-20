@@ -14,6 +14,7 @@ namespace MathForGames
         private static int _currentSceneIndex = 0;
         private static Scene[] _scenes = new Scene[0];
         private Stopwatch _stopwatch = new Stopwatch();
+        private int _enemiesAlive;
 
         /// <summary>
         /// Called to begin the application
@@ -58,21 +59,26 @@ namespace MathForGames
             Raylib.InitWindow(800, 450, "MathForgames");
             Raylib.SetTargetFPS(0);
 
-            //TagScene
+            //ChaseScene
             Scene TagScene = new Scene();
 
             //Actors
-            Player Player = new Player('@', 70, 0, 50, Color.SKYBLUE, "Player");
-            Player.CollisionRadius = 20;
-            Chaser Chaser = new Chaser('C', 0, 0, 30, Color.PINK, "Chaser", 3, Player);
-            Chaser.CollisionRadius = 20;
+            Player Player = new Player('@', 200, 200, 50, Color.BROWN, 20, "Player");
+            Chaser Chaser = new Chaser('C', 0, 0, 30, Color.ORANGE, 20, "Chaser", 3, Player);
+            Chaser Chaser2 = new Chaser('C', 100, 300, 30, Color.ORANGE, 20, "Chaser", 3, Player);
+            Chaser Chaser3 = new Chaser('C', 200, 400, 30, Color.ORANGE, 20, "Chaser", 3, Player);
+
 
             //UI
-            UIText text = new UIText(10, 10, "TestTextBox", Color.GREEN, 70, 70, 15, "This is text dialogue");
+            UIText WinningText = new UIText(10, 10, 0, "TestTextBox", Color.GREEN, 70, 70, 15, "The player won!");
+            UIText LosingText = new UIText(10, 10, 0, "TestTextBox", Color.RED, 70, 70, 15, "The player Lost!");
 
             //Add actors to the scene
             TagScene.AddActor(Player);
             TagScene.AddActor(Chaser);
+            TagScene.AddActor(Chaser2);
+            TagScene.AddActor(Chaser3);
+            _enemiesAlive = 3;
 
             _scenes = new Scene[]{ TagScene };
             //Starts the current scene
@@ -98,10 +104,9 @@ namespace MathForGames
         private void End()
         {
             _scenes[_currentSceneIndex].End();
+            Console.ReadKey(true);
             Raylib.CloseWindow();
             Console.Clear();
-            Console.WriteLine("The Player was caught");
-            Console.ReadKey(true);
         }
 
         /// <summary>

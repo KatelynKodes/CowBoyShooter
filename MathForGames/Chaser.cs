@@ -32,8 +32,8 @@ namespace MathForGames
             set { _forwardDir = value; }
         }
 
-        public Chaser(char icon, float x, float y, float speed, Color IconColor, string name, float MaxAngle, Actor Chasee) : 
-            base(icon, x, y, IconColor, name)
+        public Chaser(char icon, float x, float y, float speed, Color IconColor, float collisionRadius, string name, float MaxAngle, Actor Chasee) : 
+            base(icon, x, y, IconColor, collisionRadius, name)
         {
             _maxViewingAngle = MaxAngle;
             _speed = speed;

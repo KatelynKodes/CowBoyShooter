@@ -47,15 +47,16 @@ namespace MathForGames
             set { _collisionRadius = value; }
         }
 
-        public Actor(char icon, float x, float y, Color IconColor, string name = "Actor") :
-            this(icon, new Vector2 { X = x, Y = y }, IconColor, name)
+        public Actor(char icon, float x, float y, Color IconColor, float collisonRadius, string name = "Actor") :
+            this(icon, new Vector2 { X = x, Y = y }, IconColor, collisonRadius, name)
         { }
 
-        public Actor(char CharIcon, Vector2 Position, Color IconColor, string name = "Actor")
+        public Actor(char CharIcon, Vector2 Position, Color IconColor, float collisionRadius, string name = "Actor")
         {
             _icon = new Icon { Symbol = CharIcon, color = IconColor };
             _position = Position;
             _name = name;
+            _collisionRadius = collisionRadius;
         }
 
         public virtual void Start()
