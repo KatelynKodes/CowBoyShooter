@@ -15,6 +15,7 @@ namespace MathForGames
         public Scene()
         {
             _actors = new Actor[0];
+            _UIElements = new Actor[0];
         }
 
         /// <summary>

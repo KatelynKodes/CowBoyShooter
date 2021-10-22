@@ -35,10 +35,11 @@ namespace MathForGames
         /// </summary>
         public override void Update(float deltaTime)
         {
+            //Movement
             int xDirection = -Convert.ToInt32(Raylib.IsKeyDown(KeyboardKey.KEY_A)) +
                 Convert.ToInt32(Raylib.IsKeyDown(KeyboardKey.KEY_D));
             int yDirection = -Convert.ToInt32(Raylib.IsKeyDown(KeyboardKey.KEY_W)) +
-                Convert.ToInt32(Raylib.IsKeyDown(KeyboardKey.KEY_S)); ;
+                Convert.ToInt32(Raylib.IsKeyDown(KeyboardKey.KEY_S));
 
             Vector2 Movedirection = new Vector2(xDirection, yDirection);
 
@@ -57,7 +58,7 @@ namespace MathForGames
         {
             if (collider is Chaser)
             {
-                Engine.CloseApplication();
+                Engine.ActorDeath(this);
             }
         }
     }

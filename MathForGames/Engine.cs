@@ -14,7 +14,11 @@ namespace MathForGames
         private static int _currentSceneIndex = 0;
         private static Scene[] _scenes = new Scene[0];
         private Stopwatch _stopwatch = new Stopwatch();
-        private int _enemiesAlive;
+
+        private static int _enemiesAlive;
+        private int _totalEnemies;
+        private static bool _playerAlive;
+        private static Actor[] _deadChasers;
 
         /// <summary>
         /// Called to begin the application
@@ -61,6 +65,8 @@ namespace MathForGames
 
             //ChaseScene
             Scene TagScene = new Scene();
+            Scene LoseScene = new Scene();
+            Scene WinScene = new Scene();
 
             //Actors
             Player Player = new Player('@', 200, 200, 50, Color.BROWN, 20, "Player");
@@ -71,16 +77,22 @@ namespace MathForGames
 
             //UI
             UIText WinningText = new UIText(10, 10, 0, "TestTextBox", Color.GREEN, 70, 70, 15, "The player won!");
-            UIText LosingText = new UIText(10, 10, 0, "TestTextBox", Color.RED, 70, 70, 15, "The player Lost!");
+            UIText LosingText = new UIText(10, 10, 0, "TestTextBox", Color.RED, 800, 800, 15, "The player Lost! Sorry Partner :(");
 
             //Add actors to the scene
             TagScene.AddActor(Player);
             TagScene.AddActor(Chaser);
             TagScene.AddActor(Chaser2);
             TagScene.AddActor(Chaser3);
-            _enemiesAlive = 3;
+            _totalEnemies = 3;
+            _enemiesAlive = _totalEnemies;
+            _playerAlive = false;
 
-            _scenes = new Scene[]{ TagScene };
+
+            LoseScene.AddUIElement(LosingText);
+            WinScene.AddUIElement(WinningText);
+
+            _scenes = new Scene[]{ TagScene, LoseScene, WinScene };
             //Starts the current scene
             _scenes[_currentSceneIndex].Start();
         }
@@ -90,11 +102,28 @@ namespace MathForGames
         /// </summary>
         private void Update(float deltaTime)
         {
+            if (_enemiesAlive < _totalEnemies && _enemiesAlive !< 0)
+            {
+                for (int i = 0; i < _deadChasers.Length; i++)
+                {
+                    _scenes[_currentSceneIndex].RemoveActor(_deadChasers[i]);
+                }
+            }
+
             _scenes[_currentSceneIndex].Update(deltaTime);
 
             while (Console.KeyAvailable)
             {
                 Console.ReadKey(true);
+            }
+
+            if (_enemiesAlive == 0)
+            {
+                _currentSceneIndex = 2;
+            }
+            else if (_playerAlive)
+            {
+                _currentSceneIndex = 1;
             }
         }
 
@@ -104,7 +133,6 @@ namespace MathForGames
         private void End()
         {
             _scenes[_currentSceneIndex].End();
-            Console.ReadKey(true);
             Raylib.CloseWindow();
             Console.Clear();
         }
@@ -119,6 +147,7 @@ namespace MathForGames
 
             //Adds all actor icons to buffer
             _scenes[_currentSceneIndex].Draw();
+            _scenes[_currentSceneIndex].DrawUI();
 
             Raylib.EndDrawing();
         }
@@ -171,6 +200,33 @@ namespace MathForGames
         public static void CloseApplication()
         {
             _applicationShouldClose = true;
+        }
+
+        public static void ActorDeath(Actor actorToRemove)
+        {
+            if (actorToRemove is Chaser)
+            {
+                _enemiesAlive--;
+                AddDeadChasers(actorToRemove);
+            }
+            else if (actorToRemove is Player)
+            {
+                _playerAlive = true;
+            }
+        }
+
+        static void AddDeadChasers(Actor AddChaser)
+        {
+            Actor[] TempArray = new Actor[_deadChasers.Length + 1];
+
+            for (int i = 0; i < _deadChasers.Length; i++)
+            {
+                TempArray[i] = _deadChasers[i];
+            }
+
+            TempArray[TempArray.Length - 1] = AddChaser;
+
+            _deadChasers = TempArray;
         }
     }
 }
