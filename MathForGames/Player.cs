@@ -46,6 +46,16 @@ namespace MathForGames
             GetVelocity = Movedirection.Normalized * _speed * deltaTime;
 
             GetPosition += _velocity;
+
+            //Bullet
+            int ShootBullet = Convert.ToInt32(Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE));
+            Bullet bulletShot;
+
+            if (ShootBullet != 0)
+            {
+                bulletShot = new Bullet(GetPosition.X, GetPosition.Y, 15);
+                Engine.CurrentScene.AddActor(bulletShot);
+            }
         }
 
 

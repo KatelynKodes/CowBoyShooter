@@ -73,5 +73,14 @@ namespace MathForGames
             return Angle < _maxViewingAngle && Distance <= 150f;
         }
 
+        public override void OnCollision(Actor actor)
+        {
+            if (actor is Bullet)
+            {
+                RemoveActor();
+                actor.RemoveActor();
+            }
+        }
+
     }
 }

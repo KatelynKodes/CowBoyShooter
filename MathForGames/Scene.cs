@@ -37,18 +37,23 @@ namespace MathForGames
         {
             for (int i = 0; i < _actors.Length; i++)
             {
+                //Checks if an actor hasn't started yet...
                 if (!_actors[i].Started)
                 {
-                    _actors[i].Start();
+                    _actors[i].Start(); // Error Pops up here
                 }
+                //Calls the actors update function of the current actor using deltaTime
                 _actors[i].Update(deltaTime);
 
                 // Check for collision
                 for (int j = 0; j < _actors.Length; j++)
                 {
-                    if (_actors[i].CheckForCollision(_actors[j]) && j!=i)
+                    if (i < _actors.Length - 1)
                     {
-                        _actors[i].OnCollision(_actors[j]);
+                        if (_actors[i].CheckForCollision(_actors[j]) && j != i)
+                        {
+                            _actors[i].OnCollision(_actors[j]);
+                        }
                     }
                 }
             }

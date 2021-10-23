@@ -11,6 +11,7 @@ namespace MathForGames
     class Engine
     {
         public static bool _applicationShouldClose = false;
+        public static Scene CurrentScene;
         private static int _currentSceneIndex = 0;
         private static Scene[] _scenes = new Scene[0];
         private Stopwatch _stopwatch = new Stopwatch();
@@ -71,8 +72,8 @@ namespace MathForGames
             //Actors
             Player Player = new Player('@', 200, 200, 50, Color.BROWN, 20, "Player");
             Chaser Chaser = new Chaser('C', 0, 0, 30, Color.ORANGE, 20, "Chaser", 3, Player);
-            Chaser Chaser2 = new Chaser('C', 100, 300, 30, Color.ORANGE, 20, "Chaser", 3, Player);
-            Chaser Chaser3 = new Chaser('C', 200, 400, 30, Color.ORANGE, 20, "Chaser", 3, Player);
+            Chaser Chaser2 = new Chaser('C', 100, 300, 30, Color.ORANGE, 20, "Chaser2", 3, Player);
+            Chaser Chaser3 = new Chaser('C', 200, 400, 30, Color.ORANGE, 20, "Chaser3", 3, Player);
 
 
             //UI
@@ -87,6 +88,7 @@ namespace MathForGames
             _totalEnemies = 3;
             _enemiesAlive = _totalEnemies;
             _playerAlive = false;
+            _deadChasers = new Actor[0];
 
 
             LoseScene.AddUIElement(LosingText);
@@ -102,15 +104,8 @@ namespace MathForGames
         /// </summary>
         private void Update(float deltaTime)
         {
-            if (_enemiesAlive < _totalEnemies && _enemiesAlive !< 0)
-            {
-                for (int i = 0; i < _deadChasers.Length; i++)
-                {
-                    _scenes[_currentSceneIndex].RemoveActor(_deadChasers[i]);
-                }
-            }
-
             _scenes[_currentSceneIndex].Update(deltaTime);
+            CurrentScene = _scenes[_currentSceneIndex];
 
             while (Console.KeyAvailable)
             {
@@ -207,26 +202,12 @@ namespace MathForGames
             if (actorToRemove is Chaser)
             {
                 _enemiesAlive--;
-                AddDeadChasers(actorToRemove);
+
             }
             else if (actorToRemove is Player)
             {
                 _playerAlive = true;
             }
-        }
-
-        static void AddDeadChasers(Actor AddChaser)
-        {
-            Actor[] TempArray = new Actor[_deadChasers.Length + 1];
-
-            for (int i = 0; i < _deadChasers.Length; i++)
-            {
-                TempArray[i] = _deadChasers[i];
-            }
-
-            TempArray[TempArray.Length - 1] = AddChaser;
-
-            _deadChasers = TempArray;
         }
     }
 }

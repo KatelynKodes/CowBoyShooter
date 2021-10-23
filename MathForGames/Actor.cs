@@ -82,6 +82,11 @@ namespace MathForGames
         {
         }
 
+        public void RemoveActor()
+        {
+            Engine.CurrentScene.RemoveActor(this);
+        }
+
         /// <summary>
         /// Checks if actor collided with another actor
         /// </summary>

@@ -17,13 +17,5 @@ namespace MathForGames
             Vector2 newPos = new Vector2(1, 0);
             GetPosition += newPos;
         }
-
-        public override void OnCollision(Actor actor)
-        {
-            if (actor is Chaser)
-            {
-                Engine.ActorDeath(actor);
-            }
-        }
     }
 }
