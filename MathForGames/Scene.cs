@@ -150,7 +150,7 @@ namespace MathForGames
 
             //Copy all values except actior we do not want
             int j = 0;
-            for (int i = 0; i < TempArray.Length; i++)
+            for (int i = 0; i < _actors.Length; i++)
             {
                 //If the actor in the array matches the one we're trying to find
                 if (_actors[i] != actor)
