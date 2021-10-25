@@ -16,10 +16,8 @@ namespace MathForGames
         private static Scene[] _scenes = new Scene[0];
         private Stopwatch _stopwatch = new Stopwatch();
 
-        private static int _enemiesAlive;
-        private int _totalEnemies;
+        private static int _enemiesDead;
         private static bool _playerAlive;
-        private static Actor[] _deadChasers;
 
         /// <summary>
         /// Called to begin the application
@@ -77,7 +75,7 @@ namespace MathForGames
 
 
             //UI
-            UIText WinningText = new UIText(10, 10, 0, "TestTextBox", Color.GREEN, 70, 70, 15, "The player won!");
+            UIText WinningText = new UIText(10, 10, 0, "TestTextBox", Color.GREEN, 800, 800, 15, "The player won! Good Job Partner :)");
             UIText LosingText = new UIText(10, 10, 0, "TestTextBox", Color.RED, 800, 800, 15, "The player Lost! Sorry Partner :(");
 
             //Add actors to the scene
@@ -85,10 +83,8 @@ namespace MathForGames
             TagScene.AddActor(Chaser);
             TagScene.AddActor(Chaser2);
             TagScene.AddActor(Chaser3);
-            _totalEnemies = 3;
-            _enemiesAlive = _totalEnemies;
             _playerAlive = false;
-            _deadChasers = new Actor[0];
+            _enemiesDead = 0;
 
 
             LoseScene.AddUIElement(LosingText);
@@ -112,7 +108,7 @@ namespace MathForGames
                 Console.ReadKey(true);
             }
 
-            if (_enemiesAlive == 0)
+            if (_enemiesDead == 3)
             {
                 _currentSceneIndex = 2;
             }
@@ -201,7 +197,7 @@ namespace MathForGames
         {
             if (actorToRemove is Chaser)
             {
-                _enemiesAlive--;
+                _enemiesDead++;
 
             }
             else if (actorToRemove is Player)

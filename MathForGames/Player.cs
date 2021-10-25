@@ -10,6 +10,7 @@ namespace MathForGames
     {
         private Vector2 _velocity;
         private float _speed;
+        private float _defaultSpeed;
 
         public float GetSpeed
         {
@@ -27,6 +28,7 @@ namespace MathForGames
             base(icon, x, y, IconColor, collisionRadius, name)
         {
             _speed = speed;
+            _defaultSpeed = _speed;
         }
 
         /// <summary>
@@ -55,6 +57,18 @@ namespace MathForGames
             {
                 bulletShot = new Bullet(GetPosition.X, GetPosition.Y, 15);
                 Engine.CurrentScene.AddActor(bulletShot);
+            }
+
+            //Running
+            int Run = Convert.ToInt32(Raylib.IsKeyDown(KeyboardKey.KEY_LEFT_SHIFT));
+
+            if (Run != 0)
+            {
+                _speed += 0.3f;
+            }
+            else
+            {
+                _speed = _defaultSpeed;
             }
         }
 
