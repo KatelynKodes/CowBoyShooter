@@ -19,6 +19,7 @@ namespace MathForGames
         private Vector2 _position;
         private bool _started;
         private float _collisionRadius;
+        private Collider _collider;
 
         public bool Started
         {
@@ -45,6 +46,12 @@ namespace MathForGames
         {
             get { return _collisionRadius; }
             set { _collisionRadius = value; }
+        }
+
+        public Collider Collider
+        {
+            get { return _collider; }
+            set { _collider = value; }
         }
 
         public Actor(char icon, float x, float y, Color IconColor, float collisonRadius, string name = "Actor") :
