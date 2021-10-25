@@ -77,6 +77,7 @@ namespace MathForGames
         {
             if (actor is Bullet)
             {
+                Engine.ActorDeath(this);
                 RemoveActor();
                 actor.RemoveActor();
             }
