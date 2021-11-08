@@ -36,14 +36,28 @@ namespace MathForGames
             if (circleCollider.Owner == Owner)
                 return false;
 
-            float distance = Vector2.Distance();
+            float distance = Vector2.Distance(circleCollider.Owner.GetPosition, Owner.GetPosition);
             float CombinedRadii = circleCollider.CollisionRadius + CollisionRadius;
-            return;
+            return distance <= CombinedRadii;
         }
 
         public override bool CheckCollisionAABB(AABBCollider boxCollider)
         {
+            if (boxCollider.Owner == Owner)
+            {
+                return false;
+            }
 
+            Vector2 direction = Owner.GetPosition - boxCollider.Owner.GetPosition;
+
+            direction.X = Math.Clamp(direction.X, -boxCollider.Width/2, boxCollider.Width/2);
+            direction.Y = Math.Clamp(direction.Y, -boxCollider.Height / 2, boxCollider.Height / 2);
+
+            Vector2 closestPoint = boxCollider.Owner.GetPosition + direction;
+
+            float distFromClosestPoint = Vector2.Distance(Owner.GetPosition, closestPoint);
+
+            return distFromClosestPoint <= CollisionRadius;
         }
     }
 }
